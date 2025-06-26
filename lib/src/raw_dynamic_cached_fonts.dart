@@ -123,6 +123,7 @@ abstract class RawDynamicCachedFonts {
     required int maxCacheObjects,
     required Duration cacheStalePeriod,
     required DownloadProgressListener? progressListener,
+        Map<String, String>? authHeaders,
   }) async* {
     WidgetsFlutterBinding.ensureInitialized();
 
@@ -136,6 +137,7 @@ abstract class RawDynamicCachedFonts {
       url,
       key: cacheKey,
       withProgress: progressListener != null,
+      headers: authHeaders,
     );
 
     await for (final result in stream) {

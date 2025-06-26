@@ -93,6 +93,7 @@ class DynamicCachedFonts {
     required this.fontFamily,
     this.maxCacheObjects = kDefaultMaxCacheObjects,
     this.cacheStalePeriod = kDefaultCacheStalePeriod,
+    this.authHeaders,
   })  : assert(
           fontFamily != '',
           'fontFamily cannot be empty',
@@ -136,6 +137,7 @@ class DynamicCachedFonts {
   DynamicCachedFonts.family({
     required this.urls,
     required this.fontFamily,
+    this.authHeaders,
     this.maxCacheObjects = kDefaultMaxCacheObjects,
     this.cacheStalePeriod = kDefaultCacheStalePeriod,
   })  : assert(
@@ -183,11 +185,15 @@ class DynamicCachedFonts {
   ///
   ///   It is used to specify the cache configuration, [Config],
   ///   for [CacheManager].
+
+  final Map<String, String>? authHeaders;
+
   DynamicCachedFonts.fromFirebase({
     required String bucketUrl,
     required this.fontFamily,
     this.maxCacheObjects = kDefaultMaxCacheObjects,
     this.cacheStalePeriod = kDefaultCacheStalePeriod,
+    this.authHeaders,
   })  : assert(
           fontFamily != '',
           'fontFamily cannot be empty',
@@ -359,6 +365,7 @@ class DynamicCachedFonts {
             cacheStalePeriod: cacheStalePeriod,
             maxCacheObjects: maxCacheObjects,
             progressListener: downloadProgressListener,
+            authHeaders: authHeaders,
           ).listen((_) {});
         }
       }
@@ -372,6 +379,7 @@ class DynamicCachedFonts {
             cacheStalePeriod: cacheStalePeriod,
             maxCacheObjects: maxCacheObjects,
             progressListener: downloadProgressListener,
+            authHeaders: authHeaders,
           ).listen((_) {}).asFuture<void>()
       ]);
 
@@ -483,12 +491,14 @@ class DynamicCachedFonts {
     Duration cacheStalePeriod = kDefaultCacheStalePeriod,
     int maxCacheObjects = kDefaultMaxCacheObjects,
     DownloadProgressListener? progressListener,
+        Map<String, String>? authHeaders,
   }) =>
       RawDynamicCachedFonts.cacheFontStream(
         url,
         cacheStalePeriod: cacheStalePeriod,
         maxCacheObjects: maxCacheObjects,
         progressListener: progressListener,
+        authHeaders: authHeaders,
       );
 
   /// Checks whether the given [url] can be loaded directly from cache.
